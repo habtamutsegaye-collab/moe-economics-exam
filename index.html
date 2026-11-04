@@ -2,445 +2,99 @@
 <html lang="am">
 <head>
     <meta charset="UTF-8">
-    <title>የኢትዮጵያ ትምህርት ሚኒስቴር - የ 11ኛ ክፍል ኢኮኖሚክስ ፈተና ፖርታል</title>
+    <title>MoE - Exam Portal</title>
     <style>
-        :root {
-            --bg-color: #f0f2f5;
-            --container-bg: #ffffff;
-            --text-color: #333333;
-            --header-bg: #1b5e20;
-            --box-bg: #fafafa;
-            --border-color: #e0e0e0;
-            --btn-bg: #2e7d32;
-            --btn-hover: #1b5e20;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-        [data-theme="dark"] {
-            --bg-color: #121212;
-            --container-bg: #1e1e1e;
-            --text-color: #e0e0e0;
-            --header-bg: #0d3b10;
-            --box-bg: #2a2a2a;
-            --border-color: #444444;
-            --btn-bg: #388e3c;
-            --btn-hover: #2e7d32;
+        .login-card {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
-        header { background: var(--header-bg); color: white; padding: 20px; text-align: center; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .top-controls { position: absolute; right: 20px; top: 20px; display: flex; gap: 10px; align-items: center; }
-        .timer-box { background: rgba(0,0,0,0.3); padding: 5px 12px; border-radius: 4px; font-weight: bold; font-size: 15px; }
-        .theme-btn { background: #fff; color: #333; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .container { max-width: 850px; background: var(--container-bg); padding: 30px; margin: 30px auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        
-        /* ስክሪኖች (Views) ማስተካከያ */
-        .view-section { display: none; }
-        .view-section.active { display: block; }
-
-        /* መግቢያ እና አድሚን ፎርሞች */
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--container-bg); color: var(--text-color); box-sizing: border-box; }
-        
-        .filter-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: var(--box-bg); padding: 10px 15px; border-radius: 6px; border: 1px solid var(--border-color); }
-        .question-box { margin-bottom: 30px; padding: 20px; background: var(--box-bg); border: 1px solid var(--border-color); border-radius: 6px; position: relative; }
-        .question-title { font-size: 16px; margin-bottom: 15px; font-weight: bold; }
-        .options label { display: block; margin: 10px 0; cursor: pointer; font-size: 15px; padding: 8px; border-radius: 4px; transition: background 0.2s; }
-        .options label:hover { background: rgba(46, 125, 50, 0.1); }
-        .explanation { background: rgba(251, 192, 45, 0.15); padding: 15px; margin-top: 15px; border-left: 5px solid #fbc02d; display: none; border-radius: 4px; font-size: 14px; line-height: 1.6; }
-        .btn { background: var(--btn-bg); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: bold; margin-top: 10px; }
-        .btn:hover { background: var(--btn-hover); }
-        .bookmark-btn { background: transparent; border: 1px solid #fbc02d; color: #fbc02d; padding: 4px 8px; border-radius: 4px; cursor: pointer; float: right; font-size: 12px; }
-        .result-card { text-align: center; padding: 30px; background: var(--box-bg); border-radius: 8px; border: 1px solid var(--border-color); }
-        .share-btn { background: #0088cc; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 10px; }
-        
-        /* አድሚን ጠረጴዛ */
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { border: 1px solid var(--border-color); padding: 10px; text-align: left; font-size: 14px; }
-        th { background: var(--box-bg); }
-
-        footer { text-align: center; padding: 20px; color: #777; font-size: 13px; background: var(--border-color); margin-top: 40px; }
+        .logo {
+            width: 90px;
+            height: 90px;
+            margin-bottom: 15px;
+        }
+        h2 {
+            color: #1b4d8e;
+            margin-bottom: 25px;
+            font-size: 22px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .btn-login {
+            background-color: #1b4d8e;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            width: 100%;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .btn-login:hover {
+            background-color: #143868;
+        }
+        .footer-text {
+            margin-top: 25px;
+            font-size: 13px;
+            color: #666;
+            border-top: 1px solid #eaeaea;
+            padding-top: 15px;
+        }
+        .footer-text a {
+            color: #1b4d8e;
+            text-decoration: none;
+            font-weight: bold;
+        }
     </style>
 </head>
-<body data-theme="light">
+<body>
 
-<header>
-    <h1>የኢትዮጵያ ትምህርት ሚኒስቴር (Ministry of Education)</h1>
-    <p>የ 11ኛ ክፍል የኢኮኖሚክስ ሞዴል ፈተና እና ማሻሻያ መድረክ</p>
-    <div class="top-controls">
-        <div class="timer-box" id="timer" style="display: none;">ሰዓት፡ 30:00</div>
-        <button class="theme-btn" onclick="toggleTheme()">🌙 ጨለማ ገጽታ</button>
-    </div>
-</header>
-
-<div class="container">
-
-    <!-- 1. የተማሪዎች መግቢያ ገጽ (Student Login View) -->
-    <div id="loginView" class="view-section active">
-        <h2>ተማሪዎች ወደ ፈተናው ይግቡ</h2>
-        <p>እባክዎ ፈተናውን ከመጀመርዎ በፊት ሙሉ ስምዎን እና መለያ ቁጥርዎን ያስገቡ።</p>
+<div class="login-card">
+    <!-- የትምህርት ሚኒስቴር አርማ ምሳሌ -->
+    <div style="font-size: 50px; margin-bottom: 10px;">🏛️</div>
+    <h2>MoE - Exam Portal</h2>
+    
+    <form>
         <div class="form-group">
-            <label>ሙሉ ስም (Full Name):</label>
-            <input type="text" id="studentName" placeholder="ለምሳሌ፡ አበበ ከበደ">
+            <input type="text" placeholder="Username" required>
         </div>
         <div class="form-group">
-            <label>መለያ ቁጥር (Student ID):</label>
-            <input type="text" id="studentId" placeholder="ለምሳሌ፡ MoE/11/001">
+            <input type="password" placeholder="Password" required>
         </div>
-        <button class="btn" onclick="startExam()">ፈተና ጀምር</button>
-        <hr style="margin: 30px 0; border: 0; border-top: 1px solid var(--border-color);">
-        <button class="theme-btn" style="background: #d32f2f; color: white;" onclick="showAdminLogin()">🔒 የአድሚን መግቢያ (Admin Panel)</button>
+        <button type="submit" class="btn-login">Log in</button>
+    </form>
+
+    <div class="footer-text">
+        You are using :<br>
+        <a href="https://exam1.ethernet.edu.et" target="_blank">exam1.ethernet.edu.et</a>[cite: 1]
     </div>
-
-    <!-- 2. የፈተና መስጫ ገጽ (Exam View) -->
-    <div id="examView" class="view-section">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <span id="welcomeStudent" style="font-weight: bold; color: var(--btn-bg);"></span>
-            <button class="theme-btn" style="background: #e0e0e0; color: #333;" onclick="logout()">ውጣ (Logout)</button>
-        </div>
-
-        <div class="filter-bar">
-            <span><b>ምዕራፍ ይምረጡ፡</b></span>
-            <select id="chapterFilter" onchange="filterQuestions()">
-                <option value="all">ሁሉም ምዕራፎች (1 እስከ 3)</option>
-                <option value="1">ምዕራፍ 1: Introduction to Economics</option>
-                <option value="2">ምዕራፍ 2: National Income Accounting</option>
-            </select>
-        </div>
-
-        <div id="quiz-container"></div>
-
-        <div style="text-align: center;">
-            <button class="btn" style="padding: 12px 30px; font-size: 16px;" onclick="submitQuiz()">ፈተናውን ጨርሰህ አስረክብ</button>
-        </div>
-    </div>
-
-    <!-- 3. የውጤት ማጠቃለያ ገጽ (Result View) -->
-    <div id="resultView" class="view-section">
-        <div class="result-card">
-            <h2>የፈተና ውጤት ማጠቃለያ</h2>
-            <p id="studentResultInfo" style="font-size: 16px; margin: 10px 0;"></p>
-            <p id="scoreText" style="font-size: 22px; font-weight: bold; margin: 15px 0; color: var(--btn-bg);"></p>
-            <button class="btn" onclick="restartExam()">እንደገና ፈተና ውሰድ</button>
-            <br>
-            <button class="share-btn" onclick="shareOnTelegram()">ቴሌግራም ላይ ውጤት አጋራ</button>
-        </div>
-    </div>
-
-    <!-- 4. የአድሚን ፓነል ገጽ (Admin Dashboard View) -->
-    <div id="adminView" class="view-section">
-        <h2>🔒 የአድሚን ዳሽቦርድ (Admin Dashboard)</h2>
-        <p>እዚህ ቦታ ላይ አዳዲስ ጥያቄዎችን መጨመር እና የተማሪዎችን ውጤት መከታተል ይችላሉ።</p>
-        
-        <div style="background: var(--box-bg); padding: 20px; border-radius: 6px; border: 1px solid var(--border-color); margin-top: 20px;">
-            <h3>አዲስ ጥያቄ መጨመር</h3>
-            <div class="form-group">
-                <label>ጥያቄው (Question):</label>
-                <textarea id="newQText" rows="2" placeholder="ጥያቄውን እዚህ ይጻፉ..."></textarea>
-            </div>
-            <div class="form-group">
-                <label>ምዕራፍ (Chapter):</label>
-                <select id="newQChapter">
-                    <option value="1">ምዕራፍ 1</option>
-                    <option value="2">ምዕራፍ 2</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>አማራጭ A:</label>
-                <input type="text" id="optA">
-            </div>
-            <div class="form-group">
-                <label>አማራጭ B:</label>
-                <input type="text" id="optB">
-            </div>
-            <div class="form-group">
-                <label>አማራጭ C:</label>
-                <input type="text" id="optC">
-            </div>
-            <div class="form-group">
-                <label>አማራጭ D:</label>
-                <input type="text" id="optD">
-            </div>
-            <div class="form-group">
-                <label>ትክክለኛው መልስ (0=A, 1=B, 2=C, 3=D):</label>
-                <input type="number" id="correctOpt" min="0" max="3" value="0">
-            </div>
-            <div class="form-group">
-                <label>ማብራሪያ (Explanation):</label>
-                <textarea id="newQExp" rows="2" placeholder="የማብራሪያ ጽሁፍ..."></textarea>
-            </div>
-            <button class="btn" onclick="addNewQuestion()">ጥያቄ መዝግብ</button>
-        </div>
-
-        <h3 style="margin-top: 30px;">የተማሪዎች ውጤት መዝገብ</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>ተማሪው ስም</th>
-                    <th>ID</th>
-                    <th>ውጤት</th>
-                    <th>መቶኛ (%)</th>
-                </tr>
-            </thead>
-            <tbody id="resultsTableBody">
-                <!-- ተማሪዎች ሲጨርሱ እዚህ ይጨመራሉ -->
-            </tbody>
-        </table>
-
-        <br>
-        <button class="theme-btn" style="background: #666; color: white;" onclick="backToLogin()">ወደ መግቢያ ተመለስ</button>
-    </div>
-
 </div>
-
-<footer>
-    &copy; 2026 የኢትዮጵያ ትምህርት ሚኒስቴር - መብቱ በህግ የተጠበቀ ነው።
-</footer>
-
-<script>
-    // የጥያቄዎች ዳታቤዝ
-    let questions = [
-      {
-        id: 1,
-        chapter: "2",
-        question: "1. What explains best the exclusion of informal activities from GDP?",
-        options: [
-          "A. Informal activities are unproductive.",
-          "B. It is difficult to obtain data on informal activities.",
-          "C. Informal activities are services for own consumption.",
-          "D. People working in informal activates do not pay taxes."
-        ],
-        correct: 1,
-        explanation: "<b>ትክክለኛ ማብራሪያ፡</b> የመንግስት የሀገር ውስጥ ምርት (GDP) ስሌት ውስጥ ያልተመዘገቡና ኢንፎርማል የንግድ እንቅስቃሴዎች የማይካተቱበት ዋና ምክንያት መረጃዎችን ከሕዝብ ዘንድ ማግኘት አስቸጋሪ በመሆኑ ነው።"
-      },
-      {
-        id: 2,
-        chapter: "2",
-        question: "2. In the national accounts, the nominal GDP of a country was rising fast for many consecutive years while the real GDP was declining...",
-        options: [
-          "A. The given data on CPI, nominal and real GDP are not compatible.",
-          "B. Declining real GDP can go with constant or declining CPI.",
-          "C. Increasing nominal GDP can go with constant CPI.",
-          "D. Increasing nominal GDP can go with declining CPI."
-        ],
-        correct: 1,
-        explanation: "<b>ትክክለኛ ማብራሪያ፡</b> የሪል GDP መቀነስ ከምርት መጠን መቀነስ ጋር ይያያዛል። CPI ሳይጨምር ሪል GDP ሊቀንስ የሚችለው ከቋሚ ወይም ከቀነሰ የ CPI ሁኔታዎች ጋር አብሮ በመሄድ ነው።"
-      },
-      {
-        id: 3,
-        chapter: "1",
-        question: "3. Taking 2008 as a base year, the CPI of a country in 2013 was 150. Suppose Adonawit's nominal Income in 2008 was 25,500 Birr. What was her real Income?",
-        options: [
-          "A. 12,750 Birr",
-          "B. 51,000 Birr",
-          "C. 38,250 Birr",
-          "D. 17,000 Birr"
-        ],
-        correct: 3,
-        explanation: "<b>ትክክለኛ ማብራሪያ፡</b> የእውነተኛ ገቢ (Real Income) ስሌት ቀመር Real Income = (Nominal Income / CPI) * 100 በመሆኑ (25,500 / 150) * 100 = 17,000 Birr ይሆናል።"
-      }
-    ];
-
-    let userAnswers = {};
-    let currentStudent = { name: '', id: '' };
-    let timerInterval;
-
-    // ስክሪን መቀየሪያ ተግባራት
-    function switchView(viewId) {
-        document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-        document.getElementById(viewId).classList.add('active');
-    }
-
-    function startExam() {
-        let name = document.getElementById('studentName').value.trim();
-        let id = document.getElementById('studentId').value.trim();
-        if(!name || !id) {
-            alert('እባክዎ ስምዎን እና መለያ ቁጥርዎን ያስገቡ!');
-            return;
-        }
-        currentStudent = { name, id };
-        document.getElementById('welcomeStudent').innerText = `ተማሪ፡ ${name} (ID: ${id})`;
-        
-        userAnswers = {};
-        renderQuestions(questions);
-        switchView('examView');
-        document.getElementById('timer').style.display = 'block';
-        startTimer();
-    }
-
-    function logout() {
-        clearInterval(timerInterval);
-        document.getElementById('timer').style.display = 'none';
-        switchView('loginView');
-    }
-
-    function showAdminLogin() {
-        let pass = prompt('እባክዎ የአድሚን የይለፍ ቃል (Password) ያስገቡ:');
-        if(pass === 'admin123') { // ነባር ፓስወርድ
-            switchView('adminView');
-            loadAdminResults();
-        } else if(pass !== null) {
-            alert('የተሳሳተ የይለፍ ቃል!');
-        }
-    }
-
-    function backToLogin() {
-        switchView('loginView');
-    }
-
-    function renderQuestions(filteredQuestions) {
-        const container = document.getElementById('quiz-container');
-        container.innerHTML = '';
-        
-        filteredQuestions.forEach((q) => {
-            let div = document.createElement('div');
-            div.className = 'question-box';
-            div.innerHTML = `
-                <button class="bookmark-btn" onclick="toggleBookmark(${q.id})">⭐ አስታውስ (Bookmark)</button>
-                <div class="question-title">${q.question}</div>
-                <div class="options">
-                    ${q.options.map((opt, i) => `<label><input type="radio" name="q_${q.id}" value="${i}" ${userAnswers[q.id] == i ? 'checked' : ''} onchange="saveAnswer(${q.id}, ${i})"> ${opt}</label>`).join('')}
-                </div>
-                <button class="btn" onclick="toggleExp(${q.id})">ማብራሪያ አሳይ/ደብቅ</button>
-                <div id="exp-${q.id}" class="explanation">${q.explanation}</div>
-            `;
-            container.appendChild(div);
-        });
-    }
-
-    function saveAnswer(qId, optionIndex) {
-        userAnswers[qId] = optionIndex;
-    }
-
-    function toggleExp(id) {
-        let exp = document.getElementById(`exp-${id}`);
-        exp.style.display = exp.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function toggleBookmark(id) {
-        alert(`ጥያቄ ቁጥር ${id} በማስታወሻ (Bookmark) ተይዟል!`);
-    }
-
-    function filterQuestions() {
-        const val = document.getElementById('chapterFilter').value;
-        if(val === 'all') {
-            renderQuestions(questions);
-        } else {
-            let filtered = questions.filter(q => q.chapter === val);
-            renderQuestions(filtered);
-        }
-    }
-
-    // ሰዓት ቆጣሪ
-    function startTimer() {
-        let timeLeft = 30 * 60;
-        clearInterval(timerInterval);
-        timerInterval = setInterval(() => {
-            let minutes = Math.floor(timeLeft / 60);
-            let seconds = timeLeft % 60;
-            document.getElementById('timer').innerText = `ሰዓት፡ ${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                submitQuiz();
-            }
-            timeLeft--;
-        }, 1000);
-    }
-
-    function submitQuiz() {
-        clearInterval(timerInterval);
-        document.getElementById('timer').style.display = 'none';
-        
-        let score = 0;
-        questions.forEach(q => {
-            if(userAnswers[q.id] == q.correct) {
-                score++;
-            }
-        });
-        let percentage = ((score / questions.length) * 100).toFixed(1);
-        
-        document.getElementById('studentResultInfo').innerText = `ተማሪ፡ ${currentStudent.name} (ID: ${currentStudent.id})`;
-        document.getElementById('scoreText').innerHTML = `ትክክለኛ መልሶች: ${score} ከ ${questions.length} (<span style="color: var(--btn-bg);">${percentage}%</span>)`;
-        
-        // ውጤቱን በማከማቻ መዝግብ
-        let allResults = JSON.parse(localStorage.getItem('moeExamResults') || '[]');
-        allResults.push({ name: currentStudent.name, id: currentStudent.id, score: `${score}/${questions.length}`, percentage });
-        localStorage.setItem('moeExamResults', JSON.stringify(allResults));
-
-        switchView('resultView');
-    }
-
-    function restartExam() {
-        userAnswers = {};
-        switchView('examView');
-        document.getElementById('timer').style.display = 'block';
-        startTimer();
-    }
-
-    function toggleTheme() {
-        const body = document.body;
-        if(body.getAttribute('data-theme') === 'light') {
-            body.setAttribute('data-theme', 'dark');
-        } else {
-            body.setAttribute('data-theme', 'light');
-        }
-    }
-
-    function shareOnTelegram() {
-        window.open(`https://t.me/share/url?url=https://moe.gov.et&text=የኢኮኖሚክስ ፈተና በድል አድራጊነት ጨርሻለሁ!`, '_blank');
-    }
-
-    // አድሚን አዲስ ጥያቄ ሲጨምር
-    function addNewQuestion() {
-        let text = document.getElementById('newQText').value.trim();
-        let chapter = document.getElementById('newQChapter').value;
-        let optA = document.getElementById('optA').value.trim();
-        let optB = document.getElementById('optB').value.trim();
-        let optC = document.getElementById('optC').value.trim();
-        let optD = document.getElementById('optD').value.trim();
-        let correct = parseInt(document.getElementById('correctOpt').value);
-        let exp = document.getElementById('newQExp').value.trim();
-
-        if(!text || !optA || !optB || !optC || !optD) {
-            alert('እባክዎ ሁሉንም የጥያቄ መሙያ ሳጥኖች ይሙሉ!');
-            return;
-        }
-
-        let newQ = {
-            id: questions.length + 1,
-            chapter: chapter,
-            question: `${questions.length + 1}. ${text}`,
-            options: [`A. ${optA}`, `B. ${optB}`, `C. ${optC}`, `D. ${optD}`],
-            correct: correct,
-            explanation: `<b>ትክክለኛ ማብራሪያ፡</b> ${exp}`
-        };
-
-        questions.push(newQ);
-        alert('አዲሱ ጥያቄ በተሳካ ሁኔታ ተመዝግቧል!');
-        // ፎርሙን ባዶ ማድረግ
-        document.getElementById('newQText').value = '';
-        document.getElementById('optA').value = '';
-        document.getElementById('optB').value = '';
-        document.getElementById('optC').value = '';
-        document.getElementById('optD').value = '';
-        document.getElementById('newQExp').value = '';
-    }
-
-    function loadAdminResults() {
-        let tbody = document.getElementById('resultsTableBody');
-        tbody.innerHTML = '';
-        let allResults = JSON.parse(localStorage.getItem('moeExamResults') || '[]');
-        
-        if(allResults.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="4" style="text-align: center;"> እስካሁን የተመዘገበ ፈተና የለም።</td></tr>`;
-            return;
-        }
-
-        allResults.forEach(res => {
-            let tr = document.createElement('tr');
-            tr.innerHTML = `<td>${res.name}</td><td>${res.id}</td><td>${res.score}</td><td>${res.percentage}%</td>`;
-            tbody.appendChild(tr);
-        });
-    }
-</script>
 
 </body>
 </html>
