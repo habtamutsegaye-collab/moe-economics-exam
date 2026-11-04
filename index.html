@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <title>የኢትዮጵያ ትምህርት ሚኒስቴር - የ 11ኛ ክፍል ኢኮኖሚክስ ፈተና መድረክ</title>
+    <style>
+        :root {
+            --bg-color: #f0f2f5;
+            --container-bg: #ffffff;
+            --text-color: #333333;
+            --header-bg: #1b5e20;
+            --box-bg: #fafafa;
+            --border-color: #e0e0e0;
+            --btn-bg: #2e7d32;
+            --btn-hover: #1b5e20;
+        }
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --container-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --header-bg: #0d3b10;
+            --box-bg: #2a2a2a;
+            --border-color: #444444;
+            --btn-bg: #388e3c;
+            --btn-hover: #2e7d32;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
+        header { background: var(--header-bg); color: white; padding: 20px; text-align: center; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .top-controls { position: absolute; right: 20px; top: 20px; display: flex; gap: 10px; align-items: center; }
+        .timer-box { background: rgba(0,0,0,0.3); padding: 5px 12px; border-radius: 4px; font-weight: bold; font-size: 15px; }
+        .theme-btn { background: #fff; color: #333; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .container { max-width: 850px; background: var(--container-bg); padding: 30px; margin: 30px auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .filter-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: var(--box-bg); padding: 10px 15px; border-radius: 6px; border: 1px solid var(--border-color); }
+        .filter-bar select { padding: 6px 12px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--container-bg); color: var(--text-color); }
+        .question-box { margin-bottom: 30px; padding: 20px; background: var(--box-bg); border: 1px solid var(--border-color); border-radius: 6px; position: relative; }
+        .question-title { font-size: 16px; margin-bottom: 15px; font-weight: bold; }
+        .options label { display: block; margin: 10px 0; cursor: pointer; font-size: 15px; padding: 8px; border-radius: 4px; transition: background 0.2s; }
+        .options label:hover { background: rgba(46, 125, 50, 0.1); }
+        .explanation { background: rgba(251, 192, 45, 0.15); padding: 15px; margin-top: 15px; border-left: 5px solid #fbc02d; display: none; border-radius: 4px; font-size: 14px; line-height: 1.6; }
+        .btn { background: var(--btn-bg); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: bold; margin-top: 10px; }
+        .btn:hover { background: var(--btn-hover); }
+        .bookmark-btn { background: transparent; border: 1px solid #fbc02d; color: #fbc02d; padding: 4px 8px; border-radius: 4px; cursor: pointer; float: right; font-size: 12px; }
+        .result-card { display: none; text-align: center; padding: 30px; background: var(--box-bg); border-radius: 8px; border: 1px solid var(--border-color); }
+        .share-section { margin-top: 20px; }
+        .share-btn { background: #0088cc; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        footer { text-align: center; padding: 20px; color: #777; font-size: 13px; background: var(--border-color); margin-top: 40px; }
+    </style>
+</head>
+<body data-theme="light">
+
+<header>
+    <h1>የኢትዮጵያ ትምህርት ሚኒስቴር (Ministry of Education)</h1>
+    <p>የ 11ኛ ክፍል የኢኮኖሚክስ ሞዴል ፈተና እና ማሻሻያ መድረክ</p>
+    <div class="top-controls">
+        <div class="timer-box" id="timer">ሰዓት፡ 30:00</div>
+        <button class="theme-btn" onclick="toggleTheme()">🌙 ጨለማ ገጽታ</button>
+    </div>
+</header>
+
+<div class="container">
+    <div class="filter-bar">
+        <span><b>ምዕራፍ ይምረጡ፡</b></span>
+        <select id="chapterFilter" onchange="filterQuestions()">
+            <option value="all">ሁሉም ምዕራፎች (1 እስከ 3)</option>
+            <option value="1">ምዕራፍ 1: Introduction to Economics</option>
+            <option value="2">ምዕራፍ 2: National Income Accounting</option>
+        </select>
+    </div>
+
+    <div id="quiz-container"></div>
+
+    <div style="text-align: center;">
+        <button class="btn" style="padding: 12px 30px; font-size: 16px;" onclick="submitQuiz()">ፈተናውን ጨርሰህ አስረክብ</button>
+    </div>
+
+    <div id="resultCard" class="result-card">
+        <h2>የፈተና ውጤት ማጠቃለያ</h2>
+        <p id="scoreText" style="font-size: 18px; font-weight: bold; margin: 15px 0;"></p>
+        <div class="share-section">
+            <button class="share-btn" onclick="shareOnTelegram()">ቴሌግራም ላይ አጋራ (Share)</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 የኢትዮጵያ ትምህርት ሚኒስቴር - መብቱ በህግ የተጠበቀ ነው።
+</footer>
+
+<script>
+    // 10 ቱንም ሀሳቦች የያዘ የጥያቄዎች እና የማብራሪያዎች ዳታቤዝ
+    const questions = [
+      {
+        id: 1,
+        chapter: "2",
+        question: "1. What explains best the exclusion of informal activities from GDP?",
+        options: [
+          "A. Informal activities are unproductive.",
+          "B. It is difficult to obtain data on informal activities.",
+          "C. Informal activities are services for own consumption.",
+          "D. People working in informal activates do not pay taxes."
+        ],
+        correct: 1,
+        explanation: "<b>ትክክለኛ ማብራሪያ፡</b> የመንግስት የሀገር ውስጥ ምርት (GDP) ስሌት ውስጥ ያልተመዘገቡና ኢንፎርማል የንግድ እንቅስቃሴዎች የማይካተቱበት ዋና ምክንያት መረጃዎችን ከሕዝብ ዘንድ ማግኘት አስቸጋሪ በመሆኑ ነው።"
+      },
+      {
+        id: 2,
+        chapter: "2",
+        question: "2. In the national accounts, the nominal GDP of a country was rising fast for many consecutive years while the real GDP was declining...",
+        options: [
+          "A. The given data on CPI, nominal and real GDP are not compatible.",
+          "B. Declining real GDP can go with constant or declining CPI.",
+          "C. Increasing nominal GDP can go with constant CPI.",
+          "D. Increasing nominal GDP can go with declining CPI."
+        ],
+        correct: 1,
+        explanation: "<b>ትክክለኛ ማብራሪያ፡</b> የሪል GDP መቀነስ ከምርት መጠን መቀነስ ጋር ይያያዛል። CPI ሳይጨምር ሪል GDP ሊቀንስ የሚችለው ከቋሚ ወይም ከቀነሰ የ CPI ሁኔታዎች ጋር አብሮ በመሄድ ነው።"
+      },
+      {
+        id: 3,
+        chapter: "1",
+        question: "3. Taking 2008 as a base year, the CPI of a country in 2013 was 150. Suppose Adonawit's nominal Income in 2008 was 25,500 Birr. What was her real Income?",
+        options: [
+          "A. 12,750 Birr",
+          "B. 51,000 Birr",
+          "C. 38,250 Birr",
+          "D. 17,000 Birr"
+        ],
+        correct: 3,
+        explanation: "<b>ትክክለኛ ማብራሪያ፡</b> የእውነተኛ ገቢ (Real Income) ስሌት ቀመር Real Income = (Nominal Income / CPI) * 100 በመሆኑ (25,500 / 150) * 100 = 17,000 Birr ይሆናል።"
+      }
+    ];
+
+    let userAnswers = {};
+
+    function renderQuestions(filteredQuestions) {
+        const container = document.getElementById('quiz-container');
+        container.innerHTML = '';
+        
+        filteredQuestions.forEach((q, index) => {
+            let div = document.createElement('div');
+            div.className = 'question-box';
+            div.innerHTML = `
+                <button class="bookmark-btn" onclick="toggleBookmark(${q.id})">⭐ አስታውስ (Bookmark)</button>
+                <div class="question-title">${q.question}</div>
+                <div class="options">
+                    ${q.options.map((opt, i) => `<label><input type="radio" name="q_${q.id}" value="${i}" ${userAnswers[q.id] == i ? 'checked' : ''} onchange="saveAnswer(${q.id}, ${i})"> ${opt}</label>`).join('')}
+                </div>
+                <button class="btn" onclick="toggleExp(${q.id})">ማብራሪያ አሳይ/ደብቅ</button>
+                <div id="exp-${q.id}" class="explanation">${q.explanation}</div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function saveAnswer(qId, optionIndex) {
+        userAnswers[qId] = optionIndex;
+        localStorage.setItem('savedAnswers', JSON.stringify(userAnswers));
+    }
+
+    function toggleExp(id) {
+        let exp = document.getElementById(`exp-${id}`);
+        exp.style.display = exp.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleBookmark(id) {
+        alert(`ጥያቄ ቁጥር ${id} በማስታወሻ (Bookmark) ተይዟል!`);
+    }
+
+    function filterQuestions() {
+        const val = document.getElementById('chapterFilter').value;
+        if(val === 'all') {
+            renderQuestions(questions);
+        } else {
+            let filtered = questions.filter(q => q.chapter === val);
+            renderQuestions(filtered);
+        }
+    }
+
+    // የጊዜ ገደብ ሰዓት ቆጣሪ (Timer)
+    let timeLeft = 30 * 60;
+    const timerInterval = setInterval(() => {
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        document.getElementById('timer').innerText = `ሰዓት፡ ${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            submitQuiz();
+        }
+        timeLeft--;
+    }, 1000);
+
+    function submitQuiz() {
+        let score = 0;
+        questions.forEach(q => {
+            if(userAnswers[q.id] == q.correct) {
+                score++;
+            }
+        });
+        let percentage = ((score / questions.length) * 100).toFixed(1);
+        
+        document.getElementById('quiz-container').style.display = 'none';
+        document.querySelector('.btn').style.display = 'none';
+        document.getElementById('resultCard').style.display = 'block';
+        document.getElementById('scoreText').innerHTML = `ትክክለኛ መልሶች: ${score} ከ ${questions.length} (<span style="color: #2e7d32;">${percentage}%</span>)`;
+    }
+
+    function toggleTheme() {
+        const body = document.body;
+        if(body.getAttribute('data-theme') === 'light') {
+            body.setAttribute('data-theme', 'dark');
+        } else {
+            body.setAttribute('data-theme', 'light');
+        }
+    }
+
+    function shareOnTelegram() {
+        window.open(`https://t.me/share/url?url=https://moe.gov.et&text=የኢኮኖሚክስ ፈተና ሰርቻለሁ! ውጤቴን አብሬያለሁ።`, '_blank');
+    }
+
+    // ሲከፈት ማስቀመጫውን ጫን
+    window.onload = function() {
+        let saved = localStorage.getItem('savedAnswers');
+        if(saved) {
+            userAnswers = JSON.parse(saved);
+        }
+        renderQuestions(questions);
+    };
+</script>
+
+</body>
+</html>
