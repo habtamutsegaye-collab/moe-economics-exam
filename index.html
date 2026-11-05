@@ -1,100 +1,955 @@
 <!DOCTYPE html>
-<html lang="am">
+<html lang="am" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <title>MoE - Exam Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoE - Exam Portal | የኢትዮጵያ ትምህርት ሚኒስቴር</title>
+    <!-- Tailwind CSS for sleek modern layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        moeGreen: {
+                            DEFAULT: '#1b5e20',
+                            hover: '#144718',
+                            light: '#e8f5e9'
+                        },
+                        moeNavy: {
+                            DEFAULT: '#1b4d8e',
+                            hover: '#143b6e',
+                            light: '#eef4fc'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: 'Noto Sans Ethiopic', 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
         }
-        .login-card {
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
+
+        .moodle-card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
         }
-        .logo {
-            width: 90px;
-            height: 90px;
-            margin-bottom: 15px;
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        h2 {
-            color: #1b4d8e;
-            margin-bottom: 25px;
-            font-size: 22px;
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
         }
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
+        .dark ::-webkit-scrollbar-track {
+            background: #1f2937;
         }
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
+        ::-webkit-scrollbar-thumb {
+            background: #9ca3af;
             border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 14px;
         }
-        .btn-login {
-            background-color: #1b4d8e;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            width: 100%;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .btn-login:hover {
-            background-color: #143868;
-        }
-        .footer-text {
-            margin-top: 25px;
-            font-size: 13px;
-            color: #666;
-            border-top: 1px solid #eaeaea;
-            padding-top: 15px;
-        }
-        .footer-text a {
-            color: #1b4d8e;
-            text-decoration: none;
-            font-weight: bold;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 min-h-screen flex flex-col justify-between">
 
-<div class="login-card">
-    <!-- የትምህርት ሚኒስቴር አርማ ምሳሌ -->
-    <div style="font-size: 50px; margin-bottom: 10px;">🏛️</div>
-    <h2>MoE - Exam Portal</h2>
-    
-    <form>
-        <div class="form-group">
-            <input type="text" placeholder="Username" required>
-        </div>
-        <div class="form-group">
-            <input type="password" placeholder="Password" required>
-        </div>
-        <button type="submit" class="btn-login">Log in</button>
-    </form>
+    <!-- Top Header Navigation Bar -->
+    <header class="bg-moeGreen dark:bg-gray-800 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <!-- Brand / Logo Title -->
+            <div class="flex items-center space-x-3 space-x-reverse cursor-pointer" onclick="goToLogin()">
+                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center p-1 shadow">
+                    <!-- MoE Emblem SVG -->
+                    <svg viewBox="0 0 100 100" class="w-full h-full">
+                        <circle cx="50" cy="50" r="46" fill="none" stroke="#1b5e20" stroke-width="6"/>
+                        <circle cx="50" cy="50" r="40" fill="none" stroke="#007a3d" stroke-width="2"/>
+                        <!-- Book Icon -->
+                        <path d="M 28,62 Q 50,52 50,32 Q 50,52 72,62 Q 50,56 28,62 Z" fill="#eab308"/>
+                        <path d="M 50,32 L 50,75 M 28,62 L 28,76 Q 50,68 50,75 Q 50,68 72,76 L 72,62" fill="none" stroke="#1b4d8e" stroke-width="4" stroke-linecap="round"/>
+                        <!-- Sun Rays -->
+                        <circle cx="50" cy="24" r="6" fill="#dc2626"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight" id="headerTitle">የኢትዮጵያ ትምህርት ሚኒስቴር</h1>
+                    <p class="text-xs text-green-200 font-medium" id="headerSub">MoE National Exam Portal</p>
+                </div>
+            </div>
 
-    <div class="footer-text">
-        You are using :<br>
-        <a href="https://exam1.ethernet.edu.et" target="_blank">exam1.ethernet.edu.et</a>[cite: 1]
+            <!-- Top Right Controls (Timer, Language, Dark Mode) -->
+            <div class="flex items-center space-x-3 sm:space-x-4 space-x-reverse">
+                <!-- Exam Timer Box (Hidden initially) -->
+                <div id="timerContainer" class="hidden bg-red-600/90 text-white font-mono px-3 py-1.5 rounded-lg text-sm font-bold animate-pulse flex items-center gap-2">
+                    <i class="fa-solid fa-clock"></i>
+                    <span id="timerText">30:00</span>
+                </div>
+
+                <!-- Language Toggle Dropdown -->
+                <div class="relative">
+                    <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-emerald-800 dark:bg-gray-700 text-white text-xs sm:text-sm font-medium py-1.5 px-2.5 rounded-md border border-emerald-600 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-white">
+                        <option value="am">አማርኛ (Amharic)</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+
+                <!-- Theme Toggle Button -->
+                <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-emerald-700 dark:hover:bg-gray-700 transition duration-200 text-yellow-300 dark:text-yellow-400" title="Switch Theme">
+                    <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container Viewports -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6">
+
+        <!-- ========================================== -->
+        <!-- VIEW 1: MOODLE AUTHENTIC LOGIN VIEW -->
+        <!-- ========================================== -->
+        <div id="loginView" class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-12 gap-6 my-6">
+            
+            <!-- Notice / Announcements Board (Left Side on Desktop) -->
+            <div class="md:col-span-5 bg-white dark:bg-gray-800 p-6 rounded-2xl moodle-card-shadow flex flex-col justify-between border border-gray-100 dark:border-gray-700">
+                <div>
+                    <div class="flex items-center gap-2 text-moeGreen dark:text-emerald-400 font-bold border-b pb-3 border-gray-200 dark:border-gray-700 mb-4">
+                        <i class="fa-solid fa-bullhorn text-lg"></i>
+                        <h3 id="noticeBoardTitle" class="text-lg">ወቅታዊ ማስታወቂያዎች (Notice)</h3>
+                    </div>
+                    
+                    <div class="space-y-4 text-sm">
+                        <div class="p-3 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl border-l-4 stroke-emerald-600 border-moeGreen">
+                            <span class="text-xs font-semibold text-moeGreen dark:text-emerald-400 block mb-1">📅 ግንቦት 2026</span>
+                            <p class="font-semibold text-gray-800 dark:text-gray-200 mb-1" id="notice1Title">የ11ኛ ክፍል ኢኮኖሚክስ ሞዴል ፈተና</p>
+                            <p class="text-gray-600 dark:text-gray-400 text-xs" id="notice1Desc">ተማሪዎች ፈተናውን ከመጀመራቸው በፊት መለያ ቁጥራቸውን ማዘጋጀት ይኖርባቸዋል።</p>
+                        </div>
+
+                        <div class="p-3 bg-blue-50 dark:bg-blue-950/40 rounded-xl border-l-4 border-moeNavy">
+                            <span class="text-xs font-semibold text-moeNavy dark:text-blue-400 block mb-1">📢 መመሪያ</span>
+                            <p class="font-semibold text-gray-800 dark:text-gray-200 mb-1" id="notice2Title">የፈተና ሰዓት ደንብ</p>
+                            <p class="text-gray-600 dark:text-gray-400 text-xs" id="notice2Desc">ፈተናው ሲጀመር የ30 ደቂቃ ሰዓት ቆጣሪው በቀጥታ የሚጀምር ይሆናል።</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
+                    <button onclick="showAdminLoginModal()" class="w-full flex items-center justify-center gap-2 text-xs font-semibold text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 py-2 px-3 rounded-lg border border-red-200 dark:border-red-900 hover:bg-red-50 dark:hover:bg-red-950/50 transition">
+                        <i class="fa-solid fa-lock"></i>
+                        <span id="adminAccessBtn">የመምህራን / የአድሚን መግቢያ (Admin Dashboard)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Login Box (Right Side / Center) -->
+            <div class="md:col-span-7 bg-white dark:bg-gray-800 p-8 rounded-2xl moodle-card-shadow border border-gray-100 dark:border-gray-700 flex flex-col items-center text-center">
+                
+                <!-- MoE Emblem Badge -->
+                <div class="w-24 h-24 mb-4 relative flex items-center justify-center">
+                    <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-md">
+                        <circle cx="50" cy="50" r="46" fill="#f8fafc" stroke="#1b4d8e" stroke-width="4"/>
+                        <circle cx="50" cy="50" r="41" fill="none" stroke="#1b5e20" stroke-width="2"/>
+                        <!-- Ethiopian Flag Ring Segment -->
+                        <path d="M 50 6 A 44 44 0 0 1 94 50" fill="none" stroke="#007a3d" stroke-width="4"/>
+                        <path d="M 94 50 A 44 44 0 0 1 50 94" fill="none" stroke="#fdae17" stroke-width="4"/>
+                        <path d="M 50 94 A 44 44 0 0 1 6 50" fill="none" stroke="#c8102e" stroke-width="4"/>
+                        <!-- Book & Sun -->
+                        <path d="M 28,62 Q 50,52 50,32 Q 50,52 72,62 Q 50,56 28,62 Z" fill="#f59e0b"/>
+                        <path d="M 50,32 L 50,75 M 28,62 L 28,76 Q 50,68 50,75 Q 50,68 72,76 L 72,62" fill="none" stroke="#1b4d8e" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <h2 class="text-xl font-bold text-moeNavy dark:text-blue-400 mb-1">MoE - Exam Portal</h2>
+                <p id="portalSubText" class="text-xs text-gray-500 dark:text-gray-400 mb-6 font-medium">የ 11ኛ ክፍል ኢኮኖሚክስ ሞዴል ፈተና መድረክ</p>
+
+                <!-- Login Form -->
+                <form id="loginForm" onsubmit="handleLogin(event)" class="w-full max-w-sm space-y-4 text-left">
+                    <div>
+                        <label id="lblUser" class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">የተማሪው ስም (Full Name / Username)</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                <i class="fa-solid fa-user text-sm"></i>
+                            </span>
+                            <input type="text" id="usernameInput" required placeholder="ለምሳሌ፡ አበበ ከበደ" class="w-full pl-9 pr-3 py-2.5 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-moeNavy focus:border-transparent dark:text-white transition">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label id="lblId" class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">መለያ ቁጥር (Student ID / Password)</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                <i class="fa-solid fa-id-card text-sm"></i>
+                            </span>
+                            <input type="password" id="passwordInput" required placeholder="MoE/11/001" class="w-full pl-9 pr-3 py-2.5 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-moeNavy focus:border-transparent dark:text-white transition">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-moeNavy hover:bg-moeNavy-hover text-white font-bold py-2.5 rounded-lg shadow transition duration-200 text-sm flex items-center justify-center gap-2">
+                        <span id="loginBtnText">ወደ ፈተናው ግባ (Log in)</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </form>
+
+                <div class="my-4 w-full max-w-sm flex items-center justify-between">
+                    <hr class="w-full border-gray-200 dark:border-gray-700">
+                    <span id="orText" class="px-3 text-xs text-gray-400 uppercase font-semibold">ወይም</span>
+                    <hr class="w-full border-gray-200 dark:border-gray-700">
+                </div>
+
+                <!-- Guest Login Option -->
+                <button onclick="loginAsGuest()" class="w-full max-w-sm bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 font-semibold py-2.5 rounded-lg transition text-sm flex items-center justify-center gap-2 mb-3">
+                    <i class="fa-solid fa-user-circle text-base text-gray-500"></i>
+                    <span id="guestBtnText">እንደ እንግዳ ግባ (Log in as Guest)</span>
+                </button>
+
+                <div class="mt-2 text-center">
+                    <a href="#" onclick="showForgotPassword(event)" id="forgotPasswordLink" class="text-xs text-moeNavy dark:text-blue-400 hover:underline">የይለፍ ቃል ወይም መለያ ቁጥር ረስተዋል? (Forgot Password?)</a>
+                </div>
+
+                <!-- Footer URL info as seen on authentic Moodle login -->
+                <div class="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700 text-xs text-gray-400 w-full">
+                    <p id="portalUrlText">You are using :</p>
+                    <a href="https://exam1.ethernet.edu.et/login/index.php" target="_blank" class="font-semibold text-moeNavy dark:text-blue-400 hover:underline">exam1.ethernet.edu.et</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW 2: INTERACTIVE EXAM VIEW -->
+        <!-- ========================================== -->
+        <div id="examView" class="hidden w-full max-w-4xl bg-white dark:bg-gray-800 rounded-2xl moodle-card-shadow p-6 border border-gray-100 dark:border-gray-700 my-4">
+            
+            <!-- Student Banner -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-700 gap-3 mb-6">
+                <div>
+                    <span id="studentBadge" class="bg-emerald-100 dark:bg-emerald-900/60 text-moeGreen dark:text-emerald-300 text-xs font-bold px-2.5 py-1 rounded-md mb-1 inline-block">11ኛ ክፍል ኢኮኖሚክስ</span>
+                    <h2 id="welcomeStudent" class="text-lg font-bold text-gray-800 dark:text-gray-100"></h2>
+                </div>
+                
+                <button onclick="confirmLogout()" class="self-start sm:self-auto bg-gray-100 dark:bg-gray-700 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/40 text-gray-600 dark:text-gray-300 text-xs font-bold py-2 px-3 rounded-lg border border-gray-300 dark:border-gray-600 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span id="logoutBtnText">ውጣ (Logout)</span>
+                </button>
+            </div>
+
+            <!-- Filter Bar & Progress -->
+            <div class="bg-gray-50 dark:bg-gray-750 p-4 rounded-xl border border-gray-200 dark:border-gray-700 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="flex items-center gap-2 w-full md:w-auto">
+                    <label id="filterLabel" class="text-xs font-bold text-gray-700 dark:text-gray-300 whitespace-nowrap"><i class="fa-solid fa-filter mr-1"></i>ምዕራፍ ይምረጡ፡</label>
+                    <select id="chapterFilter" onchange="filterQuestions()" class="w-full md:w-auto bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-100 text-xs sm:text-sm rounded-lg px-3 py-2 focus:ring-2 focus:ring-moeGreen outline-none">
+                        <option value="all">ሁሉም ምዕራፎች (All Chapters)</option>
+                        <option value="1">ምዕራፍ 1: Introduction to Economics</option>
+                        <option value="2">ምዕራፍ 2: National Income Accounting</option>
+                        <option value="3">ምዕራፍ 3: Market Structures & Theory</option>
+                    </select>
+                </div>
+
+                <!-- Bookmarked Questions Counter -->
+                <div class="text-xs font-semibold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 px-3 py-1.5 rounded-lg border border-amber-200 dark:border-amber-900 flex items-center gap-2">
+                    <i class="fa-solid fa-bookmark"></i>
+                    <span id="bookmarkCountText">የተያዙ ጥያቄዎች: 0</span>
+                </div>
+            </div>
+
+            <!-- Quiz Container -->
+            <div id="quiz-container" class="space-y-6 mb-8">
+                <!-- Dynamically Rendered Questions -->
+            </div>
+
+            <!-- Submission Footer -->
+            <div class="pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-center">
+                <button onclick="submitQuiz()" class="bg-moeGreen hover:bg-moeGreen-hover text-white text-base font-bold py-3 px-8 rounded-xl shadow-lg transition transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span id="submitExamBtnText">ፈተናውን ጨርሰህ አስረክብ (Submit Exam)</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW 3: RESULTS & SCORE SUMMARY VIEW -->
+        <!-- ========================================== -->
+        <div id="resultView" class="hidden w-full max-w-2xl bg-white dark:bg-gray-800 rounded-2xl moodle-card-shadow p-8 border border-gray-100 dark:border-gray-700 text-center my-4">
+            
+            <div class="w-20 h-20 bg-emerald-100 dark:bg-emerald-950/60 rounded-full flex items-center justify-center mx-auto mb-4 text-moeGreen dark:text-emerald-400 text-3xl shadow-inner">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+
+            <h2 id="resultTitle" class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-1">የፈተና ውጤት ማጠቃለያ</h2>
+            <p id="studentResultInfo" class="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-6"></p>
+
+            <!-- Score Card Display -->
+            <div class="bg-gray-50 dark:bg-gray-750 border border-gray-200 dark:border-gray-700 rounded-xl p-6 mb-6">
+                <div class="text-xs uppercase tracking-wider font-bold text-gray-400 mb-1" id="totalScoreLabel">የተገኘው አጠቃላይ ውጤት</div>
+                <div id="scoreText" class="text-4xl font-extrabold text-moeGreen dark:text-emerald-400 my-2">0 / 0</div>
+                <div id="scorePercentage" class="text-lg font-bold text-gray-700 dark:text-gray-300">0%</div>
+                
+                <!-- Performance Grade Feedback Badge -->
+                <div id="gradeBadge" class="mt-4 inline-block px-4 py-1.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-300">
+                    --
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button onclick="restartExam()" class="w-full sm:w-auto bg-moeNavy hover:bg-moeNavy-hover text-white font-bold py-2.5 px-6 rounded-lg transition text-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span id="retryBtnText">እንደገና ፈተና ውሰድ (Retry Exam)</span>
+                </button>
+                
+                <button onclick="shareOnTelegram()" class="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-white font-bold py-2.5 px-6 rounded-lg transition text-sm flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-telegram text-base"></i>
+                    <span id="shareBtnText">ቴሌግራም ላይ ውጤት አጋራ</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW 4: ADMIN DASHBOARD VIEW -->
+        <!-- ========================================== -->
+        <div id="adminView" class="hidden w-full max-w-4xl bg-white dark:bg-gray-800 rounded-2xl moodle-card-shadow p-6 sm:p-8 border border-gray-100 dark:border-gray-700 my-4">
+            
+            <div class="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-gray-700 mb-6">
+                <div>
+                    <h2 class="text-xl font-bold text-red-600 dark:text-red-400 flex items-center gap-2">
+                        <i class="fa-solid fa-user-shield"></i>
+                        <span id="adminTitle">የአድሚን ዳሽቦርድ (Admin Dashboard)</span>
+                    </h2>
+                    <p class="text-xs text-gray-500 dark:text-gray-400" id="adminSub">አዳዲስ ጥያቄዎችን መጨመር እና የተማሪዎችን ውጤት መቆጣጠሪያ</p>
+                </div>
+                <button onclick="goToLogin()" class="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-xs font-bold py-2 px-4 rounded-lg transition">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> ተመለስ
+                </button>
+            </div>
+
+            <!-- New Question Form -->
+            <div class="bg-gray-50 dark:bg-gray-750 p-6 rounded-xl border border-gray-200 dark:border-gray-700 mb-8">
+                <h3 class="text-base font-bold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-plus text-moeGreen"></i>
+                    <span id="addQuestionHeading">አዲስ ጥያቄ መዝግብ (Add Question)</span>
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div class="md:col-span-2">
+                        <label class="block font-semibold text-xs mb-1">ጥያቄው (Question Text):</label>
+                        <textarea id="newQText" rows="2" placeholder="ጥያቄውን እዚህ ያስገቡ..." class="w-full p-2.5 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-moeGreen outline-none"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-xs mb-1">ምዕራፍ (Chapter):</label>
+                        <select id="newQChapter" class="w-full p-2.5 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-moeGreen outline-none">
+                            <option value="1">ምዕራፍ 1: Introduction to Economics</option>
+                            <option value="2">ምዕራፍ 2: National Income Accounting</option>
+                            <option value="3">ምዕራፍ 3: Market Structures</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-xs mb-1">ትክክለኛው መልስ (Correct Option):</label>
+                        <select id="correctOpt" class="w-full p-2.5 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-moeGreen outline-none">
+                            <option value="0">A</option>
+                            <option value="1">B</option>
+                            <option value="2">C</option>
+                            <option value="3">D</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-xs mb-1">አማራጭ A:</label>
+                        <input type="text" id="optA" placeholder="Option A" class="w-full p-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-xs mb-1">አማራጭ B:</label>
+                        <input type="text" id="optB" placeholder="Option B" class="w-full p-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-xs mb-1">አማራጭ C:</label>
+                        <input type="text" id="optC" placeholder="Option C" class="w-full p-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-xs mb-1">አማራጭ D:</label>
+                        <input type="text" id="optD" placeholder="Option D" class="w-full p-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block font-semibold text-xs mb-1">ማብራሪያ (Explanation in Amharic/English):</label>
+                        <textarea id="newQExp" rows="2" placeholder="የማብራሪያ ጽሁፍ..." class="w-full p-2.5 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-moeGreen outline-none"></textarea>
+                    </div>
+                </div>
+
+                <button onclick="addNewQuestion()" class="mt-4 bg-moeGreen hover:bg-moeGreen-hover text-white font-bold py-2 px-6 rounded-lg text-sm transition flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>ጥያቄ መዝግብ (Save Question)</span>
+                </button>
+            </div>
+
+            <!-- Student Results Table Record -->
+            <div class="overflow-x-auto">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-base font-bold text-gray-800 dark:text-gray-200" id="resultsTableHeading">የተማሪዎች ውጤት መዝገብ (Student Results Record)</h3>
+                    <button onclick="clearResultsHistory()" class="text-xs text-red-600 dark:text-red-400 hover:underline">መዝገብ አጽዳ (Clear)</button>
+                </div>
+
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+                            <th class="p-3 border border-gray-200 dark:border-gray-600">ተማሪ ስም</th>
+                            <th class="p-3 border border-gray-200 dark:border-gray-600">መለያ (ID)</th>
+                            <th class="p-3 border border-gray-200 dark:border-gray-600">ውጤት</th>
+                            <th class="p-3 border border-gray-200 dark:border-gray-600">መቶኛ (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsTableBody" class="divide-y divide-gray-200 dark:divide-gray-700">
+                        <!-- Student records loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Custom Custom Modal Dialog (Replaces native alerts/prompts) -->
+    <div id="customModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-gray-200 dark:border-gray-700 text-center animate-fade-in">
+            <div id="modalIcon" class="text-3xl mb-3 text-moeNavy dark:text-blue-400">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <h3 id="modalTitle" class="text-lg font-bold text-gray-800 dark:text-gray-100 mb-2">መልእክት</h3>
+            <p id="modalMessage" class="text-sm text-gray-600 dark:text-gray-300 mb-6"></p>
+            
+            <div id="modalInputContainer" class="hidden mb-4">
+                <input type="password" id="modalInput" placeholder="የይለፍ ቃል ያስገቡ..." class="w-full p-2.5 border rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600 text-sm focus:ring-2 focus:ring-moeNavy outline-none">
+            </div>
+
+            <div class="flex justify-center gap-3">
+                <button id="modalCancelBtn" onclick="closeCustomModal()" class="hidden px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-xs font-bold rounded-lg hover:bg-gray-300 transition">ሰርዝ (Cancel)</button>
+                <button id="modalConfirmBtn" onclick="closeCustomModal()" class="px-5 py-2 bg-moeNavy text-white text-xs font-bold rounded-lg hover:bg-moeNavy-hover transition">እሺ (OK)</button>
+            </div>
+        </div>
     </div>
-</div>
 
+    <!-- Footer -->
+    <footer class="bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs py-4 text-center border-t border-gray-300 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4">
+            &copy; 2026 የኢትዮጵያ ትምህርት ሚኒስቴር (Ministry of Education) - መብቱ በህግ የተጠበቀ ነው።
+        </div>
+    </footer>
+
+    <!-- Javascript Core Logic -->
+    <script>
+        // Language Dictionary
+        const translations = {
+            am: {
+                headerTitle: "የኢትዮጵያ ትምህርት ሚኒስቴር",
+                headerSub: "MoE National Exam Portal",
+                noticeBoardTitle: "ወቅታዊ ማስታወቂያዎች (Notice)",
+                notice1Title: "የ11ኛ ክፍል ኢኮኖሚክስ ሞዴል ፈተና",
+                notice1Desc: "ተማሪዎች ፈተናውን ከመጀመራቸው በፊት መለያ ቁጥራቸውን ማዘጋጀት ይኖርባቸዋል።",
+                notice2Title: "የፈተና ሰዓት ደንብ",
+                notice2Desc: "ፈተናው ሲጀመር የ30 ደቂቃ ሰዓት ቆጣሪው በቀጥታ የሚጀምር ይሆናል።",
+                adminAccessBtn: "የመምህራን / የአድሚን መግቢያ (Admin Dashboard)",
+                portalSubText: "የ 11ኛ ክፍል ኢኮኖሚክስ ሞዴል ፈተና መድረክ",
+                lblUser: "የተማሪው ስም (Full Name / Username)",
+                lblId: "መለያ ቁጥር (Student ID / Password)",
+                loginBtnText: "ወደ ፈተናው ግባ (Log in)",
+                orText: "ወይም",
+                guestBtnText: "እንደ እንግዳ ግባ (Log in as Guest)",
+                forgotPasswordLink: "የይለፍ ቃል ወይም መለያ ቁጥር ረስተዋል? (Forgot Password?)",
+                portalUrlText: "You are using :",
+                logoutBtnText: "ውጣ (Logout)",
+                filterLabel: "ምዕራፍ ይምረጡ፡",
+                submitExamBtnText: "ፈተናውን ጨርሰህ አስረክብ (Submit Exam)",
+                resultTitle: "የፈተና ውጤት ማጠቃለያ",
+                totalScoreLabel: "የተገኘው አጠቃላይ ውጤት",
+                retryBtnText: "እንደገና ፈተና ውሰድ (Retry Exam)",
+                shareBtnText: "ቴሌግራም ላይ ውጤት አጋራ",
+                adminTitle: "የአድሚን ዳሽቦርድ (Admin Dashboard)",
+                adminSub: "አዳዲስ ጥያቄዎችን መጨመር እና የተማሪዎችን ውጤት መቆጣጠሪያ",
+                addQuestionHeading: "አዲስ ጥያቄ መዝግብ (Add Question)",
+                resultsTableHeading: "የተማሪዎች ውጤት መዝገብ (Student Results Record)"
+            },
+            en: {
+                headerTitle: "Ministry of Education",
+                headerSub: "MoE National Exam Portal",
+                noticeBoardTitle: "Announcements & Notices",
+                notice1Title: "Grade 11 Economics Model Exam",
+                notice1Desc: "Students are advised to prepare their credentials before starting.",
+                notice2Title: "Exam Duration Policy",
+                notice2Desc: "A 30-minute timer starts automatically once the exam commences.",
+                adminAccessBtn: "Teacher / Admin Dashboard Login",
+                portalSubText: "Grade 11 Economics Model Exam Portal",
+                lblUser: "Student Name (Full Name / Username)",
+                lblId: "Identification Number (Student ID / Password)",
+                loginBtnText: "Log in to Exam",
+                orText: "OR",
+                guestBtnText: "Log in as Guest",
+                forgotPasswordLink: "Forgotten your username or password?",
+                portalUrlText: "You are using :",
+                logoutBtnText: "Logout",
+                filterLabel: "Filter Chapter:",
+                submitExamBtnText: "Submit Exam & View Score",
+                resultTitle: "Exam Result Summary",
+                totalScoreLabel: "Total Score Achieved",
+                retryBtnText: "Retry Exam",
+                shareBtnText: "Share Result on Telegram",
+                adminTitle: "Admin Dashboard",
+                adminSub: "Add new questions and monitor student evaluation records",
+                addQuestionHeading: "Add New Question",
+                resultsTableHeading: "Student Results Evaluation Record"
+            }
+        };
+
+        let currentLang = 'am';
+
+        // Question Database
+        let questions = [
+            {
+                id: 1,
+                chapter: "2",
+                question: "1. What explains best the exclusion of informal activities from GDP?",
+                options: [
+                    "A. Informal activities are unproductive.",
+                    "B. It is difficult to obtain data on informal activities.",
+                    "C. Informal activities are services for own consumption.",
+                    "D. People working in informal activities do not pay taxes."
+                ],
+                correct: 1,
+                explanation: "<b>ትክክለኛ ማብራሪያ፡</b> የመንግስት የሀገር ውስጥ ምርት (GDP) ስሌት ውስጥ ያልተመዘገቡና ኢንፎርማል የንግድ እንቅስቃሴዎች የማይካተቱበት ዋና ምክንያት መረጃዎችን ከሕዝብ ዘንድ ማግኘት አስቸጋሪ በመሆኑ ነው።"
+            },
+            {
+                id: 2,
+                chapter: "2",
+                question: "2. In the national accounts, nominal GDP was rising fast for consecutive years while real GDP was declining. What does this indicate?",
+                options: [
+                    "A. The given data on CPI, nominal and real GDP are not compatible.",
+                    "B. Declining real GDP can go with constant or declining CPI.",
+                    "C. High rate of inflation driving nominal prices higher while actual production decreases.",
+                    "D. Increasing nominal GDP can go with declining CPI."
+                ],
+                correct: 2,
+                explanation: "<b>ትክክለኛ ማብራሪያ፡</b> የሪል GDP መቀነስ ከምርት መጠን መቀነስ ጋር ይያያዛል። ነገር ግን ኖሚናል GDP የሚያድገው በከፍተኛ የዋጋ ንረት (Inflation) ምክንያት ነው።"
+            },
+            {
+                id: 3,
+                chapter: "1",
+                question: "3. Taking 2008 as a base year, the CPI of a country in 2013 was 150. Suppose Adonawit's nominal income in 2008 was 25,500 Birr. What was her real income?",
+                options: [
+                    "A. 12,750 Birr",
+                    "B. 51,000 Birr",
+                    "C. 38,250 Birr",
+                    "D. 17,000 Birr"
+                ],
+                correct: 3,
+                explanation: "<b>ትክክለኛ ማብራሪያ፡</b> የእውነተኛ ገቢ (Real Income) ስሌት ቀመር Real Income = (Nominal Income / CPI) * 100 በመሆኑ (25,500 / 150) * 100 = 17,000 Birr ይሆናል።"
+            },
+            {
+                id: 4,
+                chapter: "3",
+                question: "4. Which one of the following is a key feature of a Perfectly Competitive Market structure?",
+                options: [
+                    "A. Single seller dominating the market",
+                    "B. Differentiated products with high price controls",
+                    "C. Large number of buyers and sellers with homogeneous products",
+                    "D. High entry barriers for new firms"
+                ],
+                correct: 2,
+                explanation: "<b>ትክክለኛ ማብራሪያ፡</b> በቅንጅታዊ አደራረግ ፍጹም ተወዳዳሪ ገበያ (Perfect Competition) ውስጥ ብዙ ገዢዎችና ሻጮች ያሉ ሲሆን የሚሸጡትም ምርት ተመሳሳይ (Homogeneous) ነው።"
+            }
+        ];
+
+        let userAnswers = {};
+        let bookmarkedQuestions = new Set();
+        let currentStudent = { name: '', id: '' };
+        let timerInterval = null;
+
+        // On Page Load Initialization
+        window.onload = function () {
+            // Load saved theme preference
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.getElementById('themeIcon').className = "fa-solid fa-sun text-lg";
+            }
+        };
+
+        // Theme Toggle Function
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                icon.className = "fa-solid fa-moon text-lg";
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                icon.className = "fa-solid fa-sun text-lg";
+            }
+        }
+
+        // Language Switching Logic
+        function changeLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            for (let key in t) {
+                const el = document.getElementById(key);
+                if (el) el.innerText = t[key];
+            }
+        }
+
+        // View Navigation Helper
+        function switchView(viewId) {
+            ['loginView', 'examView', 'resultView', 'adminView'].forEach(id => {
+                const el = document.getElementById(id);
+                if (id === viewId) {
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goToLogin() {
+            clearInterval(timerInterval);
+            document.getElementById('timerContainer').classList.add('hidden');
+            switchView('loginView');
+        }
+
+        // Auth Login Handler
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('usernameInput').value.trim();
+            const studentId = document.getElementById('passwordInput').value.trim();
+
+            if (!username || !studentId) {
+                openCustomModal('እባክዎ የተማሪ ስም እና መለያ ቁጥር ያስገቡ!', 'ስህተት', 'fa-solid fa-circle-exclamation text-amber-500');
+                return;
+            }
+
+            startExamForStudent(username, studentId);
+        }
+
+        function loginAsGuest() {
+            const guestId = "GUEST-" + Math.floor(1000 + Math.random() * 9000);
+            startExamForStudent("Guest Student (እንግዳ)", guestId);
+        }
+
+        function startExamForStudent(name, id) {
+            currentStudent = { name, id };
+            document.getElementById('welcomeStudent').innerText = `ተማሪ፡ ${name} (ID: ${id})`;
+
+            userAnswers = {};
+            bookmarkedQuestions.clear();
+            updateBookmarkCounter();
+
+            renderQuestions(questions);
+            switchView('examView');
+
+            // Timer Initialization
+            document.getElementById('timerContainer').classList.remove('hidden');
+            startTimer(30 * 60); // 30 minutes
+        }
+
+        function confirmLogout() {
+            openCustomModal('ከፈተናው መውጣት ይፈልጋሉ? ያላስረከቡት መልስ አይያዝም።', 'ማስጠንቀቂያ', 'fa-solid fa-triangle-exclamation text-amber-500', true, () => {
+                goToLogin();
+            });
+        }
+
+        function showForgotPassword(e) {
+            e.preventDefault();
+            openCustomModal('የይለፍ ቃልዎን ለማስቀየር እባክዎ በትምህርት ቤትዎ የሚገኘውን አይቲ አድሚን (IT Admin) ያነጋግሩ።', 'የይለፍ ቃል እርዳታ', 'fa-solid fa-key text-moeNavy dark:text-blue-400');
+        }
+
+        // Admin Access Authentication Modal
+        function showAdminLoginModal() {
+            openCustomModal('የአድሚን የይለፍ ቃል (Password) ያስገቡ:', 'የአድሚን መግቢያ', 'fa-solid fa-lock text-red-500', true, () => {
+                const pass = document.getElementById('modalInput').value;
+                if (pass === 'admin123') {
+                    switchView('adminView');
+                    loadAdminResults();
+                } else {
+                    openCustomModal('የተሳሳተ የይለፍ ቃል!', 'ስህተት', 'fa-solid fa-circle-xmark text-red-500');
+                }
+            }, true);
+        }
+
+        // Timer Logic
+        function startTimer(durationSeconds) {
+            let timeLeft = durationSeconds;
+            clearInterval(timerInterval);
+            
+            const timerText = document.getElementById('timerText');
+
+            timerInterval = setInterval(() => {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                
+                timerText.innerText = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    openCustomModal('የተሰጠው የፈተና ሰዓት ተጠናቋል! መልሶችዎ በራስ-ሰር ይላካሉ።', 'ሰዓት አልቋል', 'fa-solid fa-hourglass-end text-red-500', false, () => {
+                        submitQuiz();
+                    });
+                }
+                timeLeft--;
+            }, 1000);
+        }
+
+        // Question Rendering
+        function renderQuestions(list) {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            if (list.length === 0) {
+                container.innerHTML = `<div class="text-center py-8 text-gray-500">በዚህ ምዕራፍ ምንም ጥያቄዎች አልተገኙም።</div>`;
+                return;
+            }
+
+            list.forEach((q) => {
+                const isBookmarked = bookmarkedQuestions.has(q.id);
+                const qCard = document.createElement('div');
+                qCard.className = 'bg-gray-50 dark:bg-gray-750 p-5 rounded-xl border border-gray-200 dark:border-gray-700 relative transition';
+                
+                qCard.innerHTML = `
+                    <div class="flex justify-between items-start mb-3 gap-2">
+                        <div class="font-bold text-base text-gray-800 dark:text-gray-100">${q.question}</div>
+                        <button onclick="toggleBookmark(${q.id})" class="text-xs px-2.5 py-1 rounded-md border ${isBookmarked ? 'bg-amber-100 text-amber-700 border-amber-300 dark:bg-amber-900/60 dark:text-amber-300 dark:border-amber-700' : 'bg-white text-gray-500 border-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600'} transition flex items-center gap-1 shrink-0">
+                            <i class="${isBookmarked ? 'fa-solid' : 'fa-regular'} fa-bookmark"></i>
+                            <span>${isBookmarked ? 'ተይዟል' : 'አስታውስ'}</span>
+                        </button>
+                    </div>
+
+                    <div class="space-y-2 mb-4">
+                        ${q.options.map((opt, i) => `
+                            <label class="flex items-center p-3 rounded-lg bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-emerald-50/50 dark:hover:bg-gray-650 transition">
+                                <input type="radio" name="q_${q.id}" value="${i}" ${userAnswers[q.id] === i ? 'checked' : ''} onchange="saveAnswer(${q.id}, ${i})" class="w-4 h-4 text-moeGreen focus:ring-moeGreen">
+                                <span class="ml-3 text-sm text-gray-700 dark:text-gray-200 font-medium">${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+
+                    <div class="flex justify-between items-center pt-2 border-t border-gray-200/60 dark:border-gray-700">
+                        <button onclick="toggleExp(${q.id})" class="text-xs font-semibold text-moeNavy dark:text-blue-400 hover:underline flex items-center gap-1">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <span>ማብራሪያ አሳይ / ደብቅ</span>
+                        </button>
+                        <span class="text-xs text-gray-400 font-medium">ምዕራፍ ${q.chapter}</span>
+                    </div>
+
+                    <div id="exp-${q.id}" class="hidden mt-3 p-3.5 bg-amber-50 dark:bg-amber-950/40 border-l-4 border-amber-400 rounded-r-lg text-xs text-gray-700 dark:text-gray-300 leading-relaxed">
+                        ${q.explanation}
+                    </div>
+                `;
+                container.appendChild(qCard);
+            });
+        }
+
+        function saveAnswer(qId, optionIdx) {
+            userAnswers[qId] = optionIdx;
+        }
+
+        function toggleExp(id) {
+            const exp = document.getElementById(`exp-${id}`);
+            exp.classList.toggle('hidden');
+        }
+
+        function toggleBookmark(id) {
+            if (bookmarkedQuestions.has(id)) {
+                bookmarkedQuestions.delete(id);
+            } else {
+                bookmarkedQuestions.add(id);
+            }
+            updateBookmarkCounter();
+            filterQuestions();
+        }
+
+        function updateBookmarkCounter() {
+            document.getElementById('bookmarkCountText').innerText = `የተያዙ ጥያቄዎች: ${bookmarkedQuestions.size}`;
+        }
+
+        function filterQuestions() {
+            const val = document.getElementById('chapterFilter').value;
+            if (val === 'all') {
+                renderQuestions(questions);
+            } else {
+                const filtered = questions.filter(q => q.chapter === val);
+                renderQuestions(filtered);
+            }
+        }
+
+        // Quiz Submit & Evaluation
+        function submitQuiz() {
+            clearInterval(timerInterval);
+            document.getElementById('timerContainer').classList.add('hidden');
+
+            let score = 0;
+            questions.forEach(q => {
+                if (userAnswers[q.id] === q.correct) {
+                    score++;
+                }
+            });
+
+            const total = questions.length;
+            const pct = ((score / total) * 100).toFixed(1);
+
+            document.getElementById('studentResultInfo').innerText = `ተማሪ፡ ${currentStudent.name} (ID: ${currentStudent.id})`;
+            document.getElementById('scoreText').innerText = `${score} / ${total}`;
+            document.getElementById('scorePercentage').innerText = `${pct}%`;
+
+            // Performance Badge Logic
+            const badge = document.getElementById('gradeBadge');
+            if (pct >= 85) {
+                badge.innerText = "እጅግ በጣም ጥሩ (Excellent / Distinction)";
+                badge.className = "mt-4 inline-block px-4 py-1.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-300";
+            } else if (pct >= 50) {
+                badge.innerText = "ጥሩ (Satisfactory / Passed)";
+                badge.className = "mt-4 inline-block px-4 py-1.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-300";
+            } else {
+                badge.innerText = "ተጨማሪ ጥረት ያስፈልጋል (Needs Improvement)";
+                badge.className = "mt-4 inline-block px-4 py-1.5 rounded-full text-xs font-bold bg-red-100 text-red-800 dark:bg-red-900/60 dark:text-red-300";
+            }
+
+            // Save result to LocalStorage
+            let allResults = JSON.parse(localStorage.getItem('moeExamResults') || '[]');
+            allResults.push({
+                name: currentStudent.name,
+                id: currentStudent.id,
+                score: `${score}/${total}`,
+                percentage: pct,
+                date: new Date().toLocaleDateString('am-ET')
+            });
+            localStorage.setItem('moeExamResults', JSON.stringify(allResults));
+
+            switchView('resultView');
+        }
+
+        function restartExam() {
+            userAnswers = {};
+            renderQuestions(questions);
+            switchView('examView');
+            document.getElementById('timerContainer').classList.remove('hidden');
+            startTimer(30 * 60);
+        }
+
+        function shareOnTelegram() {
+            const msg = encodeURIComponent(`የ 11ኛ ክፍል ኢኮኖሚክስ ሞዴል ፈተና በኢትዮጵያ ትምህርት ሚኒስቴር ፖርታል ወስጄ የ${document.getElementById('scorePercentage').innerText} ውጤት አግኝቻለሁ!`);
+            window.open(`https://t.me/share/url?url=https://exam1.ethernet.edu.et&text=${msg}`, '_blank');
+        }
+
+        // Admin Functionalities
+        function addNewQuestion() {
+            const text = document.getElementById('newQText').value.trim();
+            const chapter = document.getElementById('newQChapter').value;
+            const optA = document.getElementById('optA').value.trim();
+            const optB = document.getElementById('optB').value.trim();
+            const optC = document.getElementById('optC').value.trim();
+            const optD = document.getElementById('optD').value.trim();
+            const correct = parseInt(document.getElementById('correctOpt').value);
+            const exp = document.getElementById('newQExp').value.trim();
+
+            if (!text || !optA || !optB || !optC || !optD) {
+                openCustomModal('እባክዎ ሁሉንም የጥያቄና መልስ ሳጥኖች ይሙሉ!', 'ስህተት', 'fa-solid fa-circle-exclamation text-amber-500');
+                return;
+            }
+
+            const newQ = {
+                id: questions.length + 1,
+                chapter: chapter,
+                question: `${questions.length + 1}. ${text}`,
+                options: [`A. ${optA}`, `B. ${optB}`, `C. ${optC}`, `D. ${optD}`],
+                correct: correct,
+                explanation: `<b>ትክክለኛ ማብራሪያ፡</b> ${exp || 'ምንም ተጨማሪ ማብራሪያ አልተሰጠም።'}`
+            };
+
+            questions.push(newQ);
+            openCustomModal('አዲሱ ጥያቄ በተሳካ ሁኔታ ተመዝግቧል!', 'ተሳክቷል', 'fa-solid fa-circle-check text-emerald-500');
+
+            // Reset inputs
+            document.getElementById('newQText').value = '';
+            document.getElementById('optA').value = '';
+            document.getElementById('optB').value = '';
+            document.getElementById('optC').value = '';
+            document.getElementById('optD').value = '';
+            document.getElementById('newQExp').value = '';
+        }
+
+        function loadAdminResults() {
+            const tbody = document.getElementById('resultsTableBody');
+            tbody.innerHTML = '';
+            const allResults = JSON.parse(localStorage.getItem('moeExamResults') || '[]');
+
+            if (allResults.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-gray-500">እስካሁን የተመዘገበ ፈተና ውጤት የለም።</td></tr>`;
+                return;
+            }
+
+            allResults.forEach(res => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-gray-50 dark:hover:bg-gray-750";
+                tr.innerHTML = `
+                    <td class="p-3 border border-gray-200 dark:border-gray-700 font-semibold">${res.name}</td>
+                    <td class="p-3 border border-gray-200 dark:border-gray-700 text-gray-500">${res.id}</td>
+                    <td class="p-3 border border-gray-200 dark:border-gray-700 font-bold text-moeGreen">${res.score}</td>
+                    <td class="p-3 border border-gray-200 dark:border-gray-700">${res.percentage}%</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function clearResultsHistory() {
+            localStorage.removeItem('moeExamResults');
+            loadAdminResults();
+        }
+
+        // Custom Modal Utility (Replaces alert & prompt)
+        function openCustomModal(msg, title = "መልእክት", iconClass = "fa-solid fa-circle-info text-moeNavy", hasCancel = false, onConfirm = null, isInput = false) {
+            const modal = document.getElementById('customModal');
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalMessage').innerText = msg;
+            document.getElementById('modalIcon').className = `text-3xl mb-3 ${iconClass}`;
+            
+            const cancelBtn = document.getElementById('modalCancelBtn');
+            const confirmBtn = document.getElementById('modalConfirmBtn');
+            const inputContainer = document.getElementById('modalInputContainer');
+            const inputField = document.getElementById('modalInput');
+
+            inputField.value = '';
+
+            if (hasCancel) {
+                cancelBtn.classList.remove('hidden');
+            } else {
+                cancelBtn.classList.add('hidden');
+            }
+
+            if (isInput) {
+                inputContainer.classList.remove('hidden');
+            } else {
+                inputContainer.classList.add('hidden');
+            }
+
+            confirmBtn.onclick = function() {
+                modal.classList.add('hidden');
+                if (onConfirm) onConfirm();
+            };
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeCustomModal() {
+            document.getElementById('customModal').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>
